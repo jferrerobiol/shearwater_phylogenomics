@@ -22,9 +22,9 @@ rm ddRAD_PMau2.fab
 $HOME/programari/ncbi-blast-2.8.1+/bin/blastn -query $HOME/Durham/mapping/input/ddRAD_PMau2.fa -db $HOME/Durham/mapping/index/blast/Calann_genome -evalue 1e-3 -max_target_seqs 1 -out $HOME/Durham/mapping/blastn/ddRAD_Calann -outfmt 6 -num_threads 10
 $HOME/programari/ncbi-blast-2.8.1+/bin/blastn -query $HOME/Durham/mapping/input/ddRAD_PMau2.fa -db $HOME/Durham/mapping/index/blast/Pufmau_genome -evalue 1e-3 -max_target_seqs 1 -out $HOME/Durham/mapping/blastn/ddRAD_Pufmau -outfmt 6 -num_threads 10
 ```
-#################################################################################################
+###################################################################################
 ## 2) Map UCE fragments to the Puffinus mauretanicus and to the Calypte anna genome with blast ##
-#################################################################################################
+###################################################################################
 
 ### Create and save a file with ddRAD loci for the Puffinus mauretanicus sample PMau2 from the 75% dataset ###
 ```
