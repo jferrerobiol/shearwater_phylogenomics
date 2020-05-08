@@ -1,5 +1,5 @@
 ### Bash script 
-## 1) trimmomatic.sh: Script to remove the Illumina adapters #
+## 1) trimmomatic.sh: Script to remove the Illumina adapters
 
 ```cd /ddn/data/sbvd77/UCE/raw ## move to folder cotaining the raw files to filter
 path=/ddn/data/sbvd77/UCE
@@ -17,13 +17,13 @@ i72=ATCTCGTATGCCGTCTTCTGCTTG
 
 `for file in *READ1.fastq.gz; do ## start a for loop to treat all the raw files in the folder`
 
-### Define some variables (file2 and name of sample)
+#### Define some variables (file2 and name of sample)
 ```
 file2=$(echo $file | sed 's/-READ1/-READ2/')
 sample=$(echo $file | cut -d "-" -f1)
 ```
 
-### Create the directory jerarchy as required by phyluce
+#### Create the directory jerarchy as required by phyluce
 ```
 mkdir ../cleaned/$sample
 mkdir ../cleaned/$sample/raw-reads
@@ -31,13 +31,13 @@ mkdir ../cleaned/$sample/split-adapter-quality-trimmed
 mkdir ../cleaned/$sample/stats
 ```
 
-### Define input and output directories
+#### Define input and output directories
 ```
 input=$path/raw
 output=$path/cleaned/$sample/split-adapter-quality-trimmed
 ```
 
-### Create the adapters.fasta file
+#### Create the adapters.fasta file
 
 #### Define the barcodes
 ```
@@ -45,7 +45,7 @@ i5barcode=$(echo $(zcat $file | grep "^@J00" | cut -d ":" -f 10 | sort | uniq -c
 i7barcode=$(echo $(zcat $file | grep "^@J00" | cut -d ":" -f 10 | sort | uniq -c | sort -r | head -1 | sed -E 's/[0-9]+ ([A-Z]+)\+[A-Z]+/\1/'))
 ```
 
-### Define the adapter sequences to filter for
+#### Define the adapter sequences to filter for
 
 ```
 i5=$i51$i5barcode$i52
@@ -54,26 +54,28 @@ i5revcomp=$(echo $i5 | rev | tr ATCG TAGC)
 i7revcomp=$(echo $i7 | rev | tr ATCG TAGC)
 ```
 
-### Write the adapters.fasta file
+#### Write the adapters.fasta file
 ```
 cat $TruSeq3 > ../cleaned/$sample/adapters.fasta
 printf '\n'\>i5'\n'$i5'\n'\>i7'\n'$i7'\n'\>i5revcomp'\n'$i5revcomp'\n'\>i7revcomp'\n'$i7revcomp'\n' >> ../cleaned/$sample/adapters.fasta
 ```
 
-### Run trimmomatic to generate the cleaned files ###
-
+#### Run trimmomatic to generate the cleaned files
+```
 java -jar /ddn/apps/Cluster-Apps/miniconda2/4.3.27/jar/trimmomatic.jar PE -threads 8 -phred33 $input/$file $input/$file2 $output/$file $output/$sample\-READ1-single.fastq.gz $output/$file2 $output/$sample\-READ2-single.fastq.gz ILLUMINACLIP:$path/cleaned/$sample/adapters.fasta:2:30:10 LEADING:5 TRAILING:15 SLIDINGWINDOW:4:15 MINLEN:40 &> $path/cleaned/$sample/stats/$sample\-adapter-contam.txt
+```
 
-### Concatenate the 2 files of unpaired reads and remove them afterwards ###
-
+#### Concatenate the 2 files of unpaired reads and remove them afterwards
+```
 cat $output/$sample\-READ1-single.fastq.gz > $output/$sample\-READ-singleton.fastq.gz
 cat $output/$sample\-READ2-single.fastq.gz >> $output/$sample\-READ-singleton.fastq.gz
 rm $output/$sample\-READ1-single.fastq.gz $output/$sample\-READ2-single.fastq.gz
 
 done
+```
 
 #########################################
-## 2) UCE contig assembly with Trinity ##
+## 2) UCE contig assembly with Trinity
 #########################################
 
 ### Array job to run Trinity assemblies ###
