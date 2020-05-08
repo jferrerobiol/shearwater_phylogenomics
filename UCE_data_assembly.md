@@ -385,6 +385,7 @@ tail -n52 UCE_phased_snapp.nex | sed -E 's/n/?/g' >> UCE_phased_snapp.nexbo
 rm UCE_phased_snapp.nex
 
 mv UCE_phased_snapp.nexbo UCE_phased_snapp.nex
+```
 
 ##### I finally change e?d by end in the last line
 
@@ -405,8 +406,9 @@ phyluce_assembly_get_trinity_coverage --assemblies $path/assemblies/ --assemblo-
 $path/info/get_trinity_coverage.tsv     
 ```
 ### Get a table with summary information about contigs matching probes ###
-
-`cat $path/info/match_contigs_to_probes.log | grep "%" | cut -d "-" -f6 | sed -E 's/^(.*)\:\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*/\1\t\2\t\3\t\4\t\5\t\6/g' | cut -f 1-3,5,6 >> info/match_contigs_to_probes.tsv `
+```
+cat $path/info/match_contigs_to_probes.log | grep "%" | cut -d "-" -f6 | sed -E 's/^(.*)\:\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*/\1\t\2\t\3\t\4\t\5\t\6/g' | cut -f 1-3,5,6 >> info/match_contigs_to_probes.tsv 
+```
 
 ### Get a file to plot in R ###
 ```
