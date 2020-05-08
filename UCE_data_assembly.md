@@ -4,14 +4,16 @@
 ```cd /ddn/data/sbvd77/UCE/raw ## move to folder cotaining the raw files to filter
 path=/ddn/data/sbvd77/UCE
 mkdir ../cleaned
-TruSeq3=$path/info/TruSeq3-PE-2.fa```
+TruSeq3=$path/info/TruSeq3-PE-2.fa
+```
 
 ## Define the invariable parts of the illumina adapters
-
+```
 i51=AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
 i52=GTGTAGATCTCGGTGGTCGCCGTATCATT
 i71=AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
 i72=ATCTCGTATGCCGTCTTCTGCTTG
+```
 
 for file in *READ1.fastq.gz; do ## start a for loop to treat all the raw files in the folder
 
