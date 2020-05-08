@@ -375,17 +375,18 @@ TriSeq -c -in $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected
 ```
 python3 ./ElConcatenero.py -if nexus -of nexus -in $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_onlybiallelic_1SNPperlocus_snapp/*nex -o UCE_phased_snapp
 ```
-`cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_onlybiallelic_1SNPperlocus_snapp`
+```
+cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_onlybiallelic_1SNPperlocus_snapp
 
-`cat UCE_phased_snapp.nex | sed -E 's/mixed.*\;/integerdata\ symbols\=\"012\"\ missing\=\?\ gap\=\-\;/' | head -6 > UCE_phased_snapp.nexbo`
+cat UCE_phased_snapp.nex | sed -E 's/mixed.*\;/integerdata\ symbols\=\"012\"\ missing\=\?\ gap\=\-\;/' | head -6 > UCE_phased_snapp.nexbo
 
-`tail -n52 UCE_phased_snapp.nex | sed -E 's/n/?/g' >> UCE_phased_snapp.nexbo`
+tail -n52 UCE_phased_snapp.nex | sed -E 's/n/?/g' >> UCE_phased_snapp.nexbo
 
-`rm UCE_phased_snapp.nex`
+rm UCE_phased_snapp.nex
 
-`mv UCE_phased_snapp.nexbo UCE_phased_snapp.nex`
+mv UCE_phased_snapp.nexbo UCE_phased_snapp.nex
 
-## I finally change e?d by end in the last line ##
+##### I finally change e?d by end in the last line
 
 #################################################################
 ## 10) Get summary statistics for UCE assembly for each sample ##
