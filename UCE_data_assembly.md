@@ -273,7 +273,7 @@ phyluce_align_remove_locus_name_from_nexus_lines \
     --output $path/alignments/dataset_out_phased_iupac_trimmed_cleaned \
     --cores 12
 ```
-### Scripts to build the 75 and 95% datasets ###
+### Scripts to build the 75% and 95% datasets ###
 ```
 phyluce_align_get_only_loci_with_min_taxa \
     --alignments $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected \
@@ -331,8 +331,9 @@ for file in *vcf; do
 done
 ```
 `cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_onlybiallelic`
-
-`for file in *vcf; do snps=$(cat $file | grep -vc "^#"); if [ $snps -eq 0 ]; then rm $file; fi; done; ls | wc -l`
+```
+for file in *vcf; do snps=$(cat $file | grep -vc "^#"); if [ $snps -eq 0 ]; then rm $file; fi; done; ls | wc -l
+```
 ```
 for file in *vcf; do cat $file | grep "^#" > $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_onlybiallelic_1SNPperlocus/$file; cat $file | grep -v "^#" | shuf | head -1 >> $path/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_onlybiallelic_1SNPperlocus/$file; done
 ```
@@ -358,8 +359,9 @@ done
 ### Concatenate the fasta files ###
 
 `cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_onlybiallelic_1SNPperlocus`
-`TriSeq -in *.fa -of fasta -o ../UCE_phased_snapp`
-
+```
+TriSeq -in *.fa -of fasta -o ../UCE_phased_snapp`
+```
 ### Change x introduced by snp-sites by n ###
 
 `sed -i 's/x/n/g' ../UCE_phased_snapp.fas`
