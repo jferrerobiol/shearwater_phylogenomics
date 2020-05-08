@@ -15,9 +15,9 @@ i71=AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
 i72=ATCTCGTATGCCGTCTTCTGCTTG
 ```
 
-for file in *READ1.fastq.gz; do ## start a for loop to treat all the raw files in the folder
+`for file in *READ1.fastq.gz; do ## start a for loop to treat all the raw files in the folder`
 
-### Define some variables (file2 and name of sample) ###
+## Define some variables (file2 and name of sample) ###
 file2=$(echo $file | sed 's/-READ1/-READ2/')
 sample=$(echo $file | cut -d "-" -f1)
 
