@@ -1,5 +1,8 @@
-### Bash script 
+# UCE data assembly scripts
+
+###############################################################
 ## 1) trimmomatic.sh: Script to remove the Illumina adapters
+###############################################################
 
 ```cd /ddn/data/sbvd77/UCE/raw ## move to folder cotaining the raw files to filter
 path=/ddn/data/sbvd77/UCE
@@ -15,7 +18,8 @@ i71=AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
 i72=ATCTCGTATGCCGTCTTCTGCTTG
 ```
 
-`for file in *READ1.fastq.gz; do ## start a for loop to treat all the raw files in the folder`
+### start a for loop to treat all the raw files in the folder
+`for file in *READ1.fastq.gz; do `
 
 #### Define some variables (file2 and name of sample)
 ```
@@ -79,7 +83,7 @@ done
 #########################################
 
 ### Array job to run Trinity assemblies ###
-
+```
 #!/bin/bash
 #$ -V
 #$ -cwd
@@ -97,16 +101,18 @@ module load dbl/phyluce/1.5.0
 export PATH=`echo ${PATH} | awk -v RS=: -v ORS=: '/jdk1.8.0/ {next} {print}'`
 
 phyluce_assembly_assemblo_trinity --config $path/info/$(echo ${FILE} | cut -d ":" -f1).conf --output $path/assemblies --subfolder split-adapter-quality-trimmed --cores 12 --clean --log-path $path/info/trinity_log &> $path/oe_files/trinity$SLURM_ARRAY_TASK_ID.log
+```
 
 ###################################
-## 3) Matching contigs to probes ##
+## 3) Matching contigs to probes 
 ###################################
-
+```
 path=/ddn/data/sbvd77/UCE
 phyluce_assembly_match_contigs_to_probes \
     --contigs $path/assemblies/contigs/ \
     --probes $path/probes/uce-5k-probes.fasta \
     --output $path/contigs_aligned_to_probes &> $path/info/match_contigs_to_probes.log
+ ```
 
 ###############################################################################
 ## 4) Build a monolithic fasta file containing all selected samples and loci ##
