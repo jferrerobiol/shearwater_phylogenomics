@@ -117,7 +117,7 @@ phyluce_assembly_match_contigs_to_probes \
 ###############################################################################
 ## 4) Build a monolithic fasta file containing all selected samples and loci ##
 ###############################################################################
-
+```
 path=/ddn/data/sbvd77/UCE
 
 phyluce_assembly_get_match_counts \
@@ -133,11 +133,11 @@ phyluce_assembly_get_fastas_from_match_counts \
     --match-count-output $path/match_counts/dataset_out.conf \
     --incomplete-matrix $path/fastas_from_match_counts/dataset_out.incomplete \
     --output $path/fastas_from_match_counts/dataset_out.fasta
-
+```
 ##################################
 ## 5) Align UCE loci with mafft ##
 ##################################
-
+```
 phyluce_align_seqcap_align \
     --fasta $path/fastas_from_match_counts/dataset_out.fasta \
     --output $path/alignments/dataset_out/ \
@@ -148,31 +148,31 @@ phyluce_align_seqcap_align \
     --cores 12 \
     --incomplete-matrix \
     --log-path $path/info/
-
+```
 #####################################
 ## 6) Trim alignments with GBlocks ##
 #####################################
-
+```
 phyluce_align_get_gblocks_trimmed_alignments_from_untrimmed \
     --alignments $path/alignments/dataset_out/ \
     --output $path/alignments/dataset_out_trimmed/ \
     --b4 8 \
     --cores 12 \
     --log-path $path/info/
-
+```
 ###################################
 ## 7) Contig datasets generation ##
 ###################################
 
 ### Script to remove locus names ###
-
+```
 phyluce_align_remove_locus_name_from_nexus_lines \
     --alignments $path/alignments/dataset_out_trimmed \
     --output $path/alignments/dataset_out_trimmed_cleaned \
     --cores 12
-
+```
 ### Scripts to build the 75 and 95% contig datasets ###
-
+```
 phyluce_align_get_only_loci_with_min_taxa \
     --alignments $path/alignments/dataset_out_trimmed_cleaned \
     --taxa 52 \
@@ -188,28 +188,28 @@ phyluce_align_get_only_loci_with_min_taxa \
     --output $path/alignments/dataset_out_trimmed_cleaned_selected_95 \
     --cores 12 \
     --log-path $path/info
-
+```
 ### Scripts to remove species with no correspondence in the ddRAD dataset and generate the phylip concatenated alignments ###
-
+```
 TriSeq -in $path/alignments/dataset_out_trimmed_cleaned_selected_75/uce*nexus -of phylip -rm PAAsD1 -o UCE_75
 TriSeq -in $path/alignments/dataset_out_trimmed_cleaned_selected_95/uce*nexus -of phylip -rm PAAsD1 -o UCE_95
-
+```
 ###########################################
 ## 8) IUPAC consensus dataset generation ##
 ###########################################
 
 ### Script to create fasta files with all the uce loci per sample ###
-
+```
 phyluce_align_explode_alignments\
     --alignments $path/alignments/dataset_out_trimmed\
     --input-format nexus \
     --output $path/sample_specific_fastas\
     --by-taxon
-
+```
 ### Script to build the phasing.conf ###
 
-cd $path
-
+`cd $path`
+```
 printf \[references\]'\n' > $path/info/phasing.conf
 find `pwd` -name *.fasta | grep "sample_specific" | sed -E 's/(.*\/([a-zA-Z0-9]+)\_contigs\.fasta)/\2\:\1/' >> $path/info/phasing.conf
 printf '\n'\[individuals\]'\n' >> $path/info/phasing.conf
@@ -223,9 +223,9 @@ for file in $(ls -1); do
   flowcell=$(zcat $file/split*/$file\-READ1.fastq.gz | head -1 | cut -d ":" -f3)
   printf $file\:$flowcell'\n' >> $path/info/phasing.conf
 done
-
+```
 ### Script to align the raw reads to the aligned and trimmed contigs in an individual basis ###
-
+```
 phyluce_snp_bwa_multiple_align \
 --config $path/info/phasing.conf \
 --output $path/bwamem_mapping \
@@ -233,9 +233,9 @@ phyluce_snp_bwa_multiple_align \
 --mem \
 --cores 10 \
 --log-path $path/info
-
+```
 ### Script to phase the bam files and write fasta files with both haplotypes per loci ###
-
+```
 phyluce_snp_phase_uces \
     --config $path/info/phasing.conf \
     --bams $path/bwamem_mapping \
@@ -243,19 +243,19 @@ phyluce_snp_phase_uces \
     --conservative \
     --cores 10 \
     --log-path $path/info
-
+```
 ### Script to merge both alleles to create IUPAC consensus sequences ###
 
-cd /ddn/data/sbvd77/UCE/phased_uces/fastas
-
+`cd /ddn/data/sbvd77/UCE/phased_uces/fastas`
+```
 cat joined_allele_sequences_all_samples.fasta | sed -n -e '/\_0/,/>/ p' | grep -v "\_1" | sed -E 's/\_0 \|.*//g' > 0_file
 cat joined_allele_sequences_all_samples.fasta | sed -n -e '/\_1/,/>/ p' | grep -v "\_0" | sed -E 's/\_1 \|.*//g' > 1_file
 seqtk mergefa -m 0_file 1_file > joined_allele_sequences_all_samples_iupac.fasta
 rm 0_file 1_file
-
+```
 
 ### Script to align IUPAC sequences of UCEs ###
-
+```
 phyluce_align_seqcap_align \
     --fasta $path/phased_uces/fastas/joined_allele_sequences_all_samples_iupac.fasta \
     --output $path/alignments/dataset_out_phased_iupac_trimmed \
@@ -265,16 +265,16 @@ phyluce_align_seqcap_align \
     --incomplete-matrix \
     --ambiguous \
     --log-path $path/info
-
+    ```
 ### Script to remove locus names ###
-
+```
 phyluce_align_remove_locus_name_from_nexus_lines \
     --alignments $path/alignments/dataset_out_phased_iupac_trimmed \
     --output $path/alignments/dataset_out_phased_iupac_trimmed_cleaned \
     --cores 12
-
+```
 ### Scripts to build the 75 and 95% datasets ###
-
+```
 phyluce_align_get_only_loci_with_min_taxa \
     --alignments $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected \
     --taxa 52 \
@@ -290,31 +290,32 @@ phyluce_align_get_only_loci_with_min_taxa \
     --output $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75 \
     --cores 12 \
     --log-path $path/info 
+ ```
 
 ### Scripts to remove species with no correspondence in the ddRAD dataset and filter out positions with more than 25% and 5% missing data ###
-
+```
 TriSeq -in $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75/uce*nexus -of phylip -rm PAAsD1 --missing-filter 25 25 -o UCE_75_phased_iupac_partitions_75post
 TriSeq -in $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_95/uce*nexus -of phylip -rm PAAsD1 --missing-filter 5 5 -o UCE_95_phased_iupac_partitions_95post
-
+```
 ### Change names so as they are the same in ddRAD and UCEs ###
-
+```
 UCE=($(cat correspondence_ddRAD-UCE-concat.tsv | grep -v "ddRAD" | cut -f2))
 concat=($(cat correspondence_ddRAD-UCE-concat.tsv | grep -v "ddRAD" | cut -f3))
 for ((i = 0; i < ${#UCE[@]}; i++)); do sed -iE "s/${UCE[i]}/${concat[i]}/" UCE_75_phased_iupac_partitions_75post.phy; done
 for ((i = 0; i < ${#UCE[@]}; i++)); do sed -iE "s/${UCE[i]}/${concat[i]}/" UCE_95_phased_iupac_partitions_95post.phy; done
-
+```
 ########################################
 ## 9) SNPs dataset for SNAPP analyses ##
 ########################################
 
 ### Script to convert fasta files to vcf using snp-sites ###
-
+```
 for file in *.fas; do snp-sites -v -o ../dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf/$(echo $file | sed 's/.fas/.vcf/') $file; cat ../dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf/$(echo $file | sed 's/.fas/.vcf/') | sed "s/^1/$(echo $file | sed 's/.fas//')/" | grep -v "*" > ../dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf/$(echo $file | sed 's/.fas/.vcfbo/');rm ../dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf/$(echo $file | sed 's/.fas/.vcf/'); mv ../dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf/$(echo $file | sed 's/.fas/.vcfbo/') ../dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf/$(echo $file | sed 's/.fas/.vcf/'); done
-
+```
 ### Remove non-biallelic SNPs and choose one SNP per locus ###
 
-cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf
-
+`cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf`
+```
 for file in *vcf; do
   cat $file | grep "^#" > $file\_int
   cat $file | grep -v "^#" | grep -v "," >> $file\_int
@@ -328,17 +329,17 @@ for file in *vcf; do
   cat $file\_int | grep -v "^#" | shuf >> $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_onlybiallelic/$file
   rm $file\_int
 done
+```
+`cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_onlybiallelic`
 
-cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_onlybiallelic
-
-for file in *vcf; do snps=$(cat $file | grep -vc "^#"); if [ $snps -eq 0 ]; then rm $file; fi; done; ls | wc -l
-
+`for file in *vcf; do snps=$(cat $file | grep -vc "^#"); if [ $snps -eq 0 ]; then rm $file; fi; done; ls | wc -l`
+```
 for file in *vcf; do cat $file | grep "^#" > $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_onlybiallelic_1SNPperlocus/$file; cat $file | grep -v "^#" | shuf | head -1 >> $path/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_onlybiallelic_1SNPperlocus/$file; done
-
+```
 ### Convert to fasta ###
 
-cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_onlybiallelic_1SNPperlocus
-
+`cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_onlybiallelic_1SNPperlocus`
+```
 for file in *vcf; do
   zero=$(cat $file | grep "uce" | cut -f4)
   alt=$(cat $file | grep "uce" | cut -f5)
@@ -353,33 +354,34 @@ for file in *vcf; do
     fi
   done
 done
-
+```
 ### Concatenate the fasta files ###
 
-cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_onlybiallelic_1SNPperlocus
-TriSeq -in *.fa -of fasta -o ../UCE_phased_snapp
+`cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_onlybiallelic_1SNPperlocus`
+`TriSeq -in *.fa -of fasta -o ../UCE_phased_snapp`
 
 ### Change x introduced by snp-sites by n ###
 
-sed -i 's/x/n/g' ../UCE_phased_snapp.fas
+`sed -i 's/x/n/g' ../UCE_phased_snapp.fas`
 
 ### Convert fasta files to SNAPP nexus files ###
-
+```
 TriSeq -c -in $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_onlybiallelic_1SNPperlocus/*.fa -of snapp -o $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_onlybiallelic_1SNPperlocus_snapp 
+```
 
 ### Concatenate the nexus files and make some modifications ###
-
+```
 python3 ./ElConcatenero.py -if nexus -of nexus -in $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_onlybiallelic_1SNPperlocus_snapp/*nex -o UCE_phased_snapp
+```
+`cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_onlybiallelic_1SNPperlocus_snapp`
 
-cd $path/alignments/dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_onlybiallelic_1SNPperlocus_snapp
+`cat UCE_phased_snapp.nex | sed -E 's/mixed.*\;/integerdata\ symbols\=\"012\"\ missing\=\?\ gap\=\-\;/' | head -6 > UCE_phased_snapp.nexbo`
 
-cat UCE_phased_snapp.nex | sed -E 's/mixed.*\;/integerdata\ symbols\=\"012\"\ missing\=\?\ gap\=\-\;/' | head -6 > UCE_phased_snapp.nexbo
+`tail -n52 UCE_phased_snapp.nex | sed -E 's/n/?/g' >> UCE_phased_snapp.nexbo`
 
-tail -n52 UCE_phased_snapp.nex | sed -E 's/n/?/g' >> UCE_phased_snapp.nexbo
+`rm UCE_phased_snapp.nex`
 
-rm UCE_phased_snapp.nex
-
-mv UCE_phased_snapp.nexbo UCE_phased_snapp.nex
+`mv UCE_phased_snapp.nexbo UCE_phased_snapp.nex`
 
 ## I finally change e?d by end in the last line ##
 
@@ -388,30 +390,30 @@ mv UCE_phased_snapp.nexbo UCE_phased_snapp.nex
 #################################################################
 
 ### Calculate some sum stats (num of contigs, length of contigs, etc.) ###
-
+```
 printf sample,contigs,total_bp,mean_length,95_CI_length,min_length,max_length,median_length,'contigs_>1kb''\n' > $path/info/get_fasta_lengths.tsv
 for i in $path/assemblies/contigs/*.fasta;do
   phyluce_assembly_get_fasta_lengths --input $i --csv >> $path/info/get_fasta_lengths.tsv
 done
-
+```
 ### Compute coverage across assemblies and summarize those data by contig ###
-
+```
 phyluce_assembly_get_trinity_coverage --assemblies $path/assemblies/ --assemblo-config $path/info/assembly_conf/assembly.conf --cores 12 --subfolder split-adapter-quality-trimmed --clean --bwa-mem &> 
 $path/info/get_trinity_coverage.tsv     
-
+```
 ### Get a table with summary information about contigs matching probes ###
 
-cat $path/info/match_contigs_to_probes.log | grep "%" | cut -d "-" -f6 | sed -E 's/^(.*)\:\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*/\1\t\2\t\3\t\4\t\5\t\6/g' | cut -f 1-3,5,6 >> info/match_contigs_to_probes.tsv 
+`cat $path/info/match_contigs_to_probes.log | grep "%" | cut -d "-" -f6 | sed -E 's/^(.*)\:\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*\s([0-9]+)\s.*/\1\t\2\t\3\t\4\t\5\t\6/g' | cut -f 1-3,5,6 >> info/match_contigs_to_probes.tsv `
 
 ### Get a file to plot in R ###
-
+```
 printf tTaxon'\t'Total_contigs'\t'Mean_length'\t'Mean_coverage'\t'Ontarget_bp_percent'\n' > UCEs_coverage.tsv
 cat phyluce_assembly_get_trinity_coverage_for_uce_loci.log | grep -A5 "Processing" | grep -E 'Processing | contigs' | sed -E 's/.*\ing\s([a-zA-Z]+?[0-9]+).*/\1/' | sed -E 's/.*\ing\s([a-zA-Z]+).*/\1/' | sed -E 's/.*\INFO -//' | sed 's/ contigs, mean trimmed length = /     /' | sed 's/, mean trimmed coverage = /     /' | sed 's/x, on-target bases (uce contigs) = /    /' | sed -E 's/%.*//' | sed 's/     /        /' | tr '\n' '\t' | sed -E 's/\t([a-zA-Z])/\n\1/g' | sed 's/\t \t/\t/' >> UCEs_coverage.tsv
-
+```
 #######################################################
 ## 11) Plot summary statistics for UCE assembly in R ##
 #######################################################
-
+```
 #!/bin/R
 
 library(ggplot2)
@@ -517,3 +519,4 @@ lenon = lenon +
 
 
 ggarrange(concov, conlen, conon, covlen, covon, lenon, ncol = 3, nrow = 2)
+```
