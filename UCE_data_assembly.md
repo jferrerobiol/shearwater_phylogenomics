@@ -1,7 +1,4 @@
-#!/bin/sh
-#$ -V
-#$ -cwd
-
+### Bash script 
 # 1) trimmomatic.sh: Script to remove the Illumina adapters #
 
 ```cd /ddn/data/sbvd77/UCE/raw ## move to folder cotaining the raw files to filter
