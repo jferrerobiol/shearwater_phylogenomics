@@ -59,7 +59,7 @@ $HOME/programari/ncbi-blast-2.8.1+/bin/blastn -query $HOME/Durham/mapping/input/
 
 ### Prepare a file with the lengths of each scaffold ###
 
-## Script to create a file with 2 columns: the first one with the name of the scaffold and the second with the length ##
+#### Script to create a file with 2 columns: the first one with the name of the scaffold and the second with the length ##
 
 ## Usage: python fasta_len.py <assembly.fa> <output.txt>
 ```
