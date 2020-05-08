@@ -1,8 +1,8 @@
 # Marker distribution
 
-###################################################################################################
+#################################################################################
 ## 1) Map ddRAD fragments to the Puffinus mauretanicus and to the Calypte anna genome with blast ##
-###################################################################################################
+#################################################################################
 
 ### Build databases for blast ###
 ```
@@ -53,9 +53,9 @@ $HOME/programari/ncbi-blast-2.8.1+/bin/blastn -query $HOME/Durham/mapping/input/
 /soft/gmap-2017-06-20/bin/gmap -D $HOME/Durham/mapping/index/gmap/Cal_ann -d Cal_ann -B 5 -t 20 $HOME/Durham/mapping/input/APP-008.cds.fa
 /soft/gmap-2017-06-20/bin/gmap -D $HOME/Durham/mapping/index/gmap/Puf_mau -d Puf_mau -B 5 -t 20 $HOME/Durham/mapping/input/APP-008.cds.fa
 ```
-#########################################################################################################################
+############################################################################################
 ## 4) Plot the mappings of ddRAD, UCEs and CDS on the Puffinus mauretanicus longest scaffolds as in Harvey et al. 2016 ##
-#########################################################################################################################
+############################################################################################
 
 ### Prepare a file with the lengths of each scaffold ###
 
