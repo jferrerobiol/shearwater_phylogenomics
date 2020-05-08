@@ -514,7 +514,7 @@ lenon = ggplot(d, aes(x=Mean_length, y=Ontarget_bp_percent)) +
 
 m = lm(Ontarget_bp_percent ~ Mean_length, d)
 eq1 = paste0("y = ", format(coef(m)[1], digits = 4), " + ", format(coef(m)[2], digits = 2), " x")
-eq2 = paste0("rÂ² = ", format(summary(m)$r.squared, digits = 3))
+eq2 = paste0("r^² = ", format(summary(m)$r.squared, digits = 3))
 eq3 = paste0("p-value = ", format(summary(m)$coefficients[2,4], digits = 3))
 eq = c(eq1, eq2, eq3)
 eq = paste(eq, collapse="\n")
