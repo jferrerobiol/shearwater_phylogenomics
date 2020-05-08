@@ -265,7 +265,7 @@ phyluce_align_seqcap_align \
     --incomplete-matrix \
     --ambiguous \
     --log-path $path/info
-    ```
+```
 ### Script to remove locus names ###
 ```
 phyluce_align_remove_locus_name_from_nexus_lines \
