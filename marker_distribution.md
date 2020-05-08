@@ -144,11 +144,11 @@ axis(1, at=c(0, interval, interval*2, interval*3, interval*4, interval*5, interv
 axis(2, at=seg.pos, labels=scaffplot$RefSeq, las=2, col="white") # y axis ticks/labels
 dev.off()
 ```
-##########################################################################################################
+############################################################################################
 ## 5) Liftover of ddRAD fragments mapped to the Puffinus mauretanicus genome to the Calypte anna genome ##
-##########################################################################################################
+############################################################################################
 
-### Prepare a file with the lengths of each scaffold ###
+#### Prepare a file with the lengths of each scaffold
 
 ## Run fasta_len.py ##
 ```
@@ -162,7 +162,7 @@ rm Calann_genome_chromosomes.txtp # Remove the intermediate file
 ```
 SatsumaSynteny2 -q $HOME/ref_sequences/final.genome.scf.fasta.masked -t $HOME/ref_sequences/GCA_003957555.1_bCalAnn1_v1.p_genomic.fna -o $HOME/Durham/mapping/satsuma2 -slaves 2 -threads 32
 ```
-### Prepare config file for kraken ###
+#### Prepare config file for kraken
 
 #### [genomes]
 ```
