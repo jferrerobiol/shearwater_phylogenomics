@@ -1,5 +1,5 @@
 ### Bash script 
-# 1) trimmomatic.sh: Script to remove the Illumina adapters #
+## 1) trimmomatic.sh: Script to remove the Illumina adapters #
 
 ```cd /ddn/data/sbvd77/UCE/raw ## move to folder cotaining the raw files to filter
 path=/ddn/data/sbvd77/UCE
@@ -7,7 +7,7 @@ mkdir ../cleaned
 TruSeq3=$path/info/TruSeq3-PE-2.fa
 ```
 
-## Define the invariable parts of the illumina adapters
+### Define the invariable parts of the illumina adapters
 ```
 i51=AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
 i52=GTGTAGATCTCGGTGGTCGCCGTATCATT
@@ -17,40 +17,48 @@ i72=ATCTCGTATGCCGTCTTCTGCTTG
 
 `for file in *READ1.fastq.gz; do ## start a for loop to treat all the raw files in the folder`
 
-## Define some variables (file2 and name of sample) ###
+### Define some variables (file2 and name of sample)
+```
 file2=$(echo $file | sed 's/-READ1/-READ2/')
 sample=$(echo $file | cut -d "-" -f1)
+```
 
-### Create the directory jerarchy as required by phyluce ###
-
+### Create the directory jerarchy as required by phyluce
+```
 mkdir ../cleaned/$sample
 mkdir ../cleaned/$sample/raw-reads
 mkdir ../cleaned/$sample/split-adapter-quality-trimmed
 mkdir ../cleaned/$sample/stats
+```
 
-### Define input and output directories ###
-
+### Define input and output directories
+```
 input=$path/raw
 output=$path/cleaned/$sample/split-adapter-quality-trimmed
+```
 
-### Create the adapters.fasta file ###
+### Create the adapters.fasta file
 
-## Define the barcodes ##
-
+#### Define the barcodes
+```
 i5barcode=$(echo $(zcat $file | grep "^@J00" | cut -d ":" -f 10 | sort | uniq -c | sort -r | head -1 | sed -E 's/[0-9]+ [A-Z]+\+([A-Z]+)/\1/'))
 i7barcode=$(echo $(zcat $file | grep "^@J00" | cut -d ":" -f 10 | sort | uniq -c | sort -r | head -1 | sed -E 's/[0-9]+ ([A-Z]+)\+[A-Z]+/\1/'))
+```
 
-## Define the adapter sequences to filter for ##
+### Define the adapter sequences to filter for
 
+```
 i5=$i51$i5barcode$i52
 i7=$i71$i7barcode$i72
 i5revcomp=$(echo $i5 | rev | tr ATCG TAGC)
 i7revcomp=$(echo $i7 | rev | tr ATCG TAGC)
+```
 
-## Write the adapters.fasta file ##
-
+### Write the adapters.fasta file
+```
 cat $TruSeq3 > ../cleaned/$sample/adapters.fasta
 printf '\n'\>i5'\n'$i5'\n'\>i7'\n'$i7'\n'\>i5revcomp'\n'$i5revcomp'\n'\>i7revcomp'\n'$i7revcomp'\n' >> ../cleaned/$sample/adapters.fasta
+```
 
 ### Run trimmomatic to generate the cleaned files ###
 
