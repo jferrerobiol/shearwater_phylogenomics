@@ -150,7 +150,7 @@ printf "ATen-AGri haplotypes mean = "$a
 cat Shearwaters_clust89_min5.vcf | grep -v "^#" | cut -f1,2,5,10-22 | grep -vE "\,.\," | grep -v "./." | cut -f1 | sort | uniq -c | sed -E 's/^ +//g' | tr ' ' '\t' | awk '{sum+=$1}END{print sum/NR}' # print the count
 cat Shearwaters_clust89_min5.vcf | grep -v "^#" | cut -f1,2,5,10-22 | grep -vE "\,.\," | grep -v "./." | cut -f1 | sort | uniq -c | sed -E 's/^ +//g' | tr ' ' '\t' | cut -f1 > mean_num_snps_ATen-AGri.tsv # print a file with number of SNPs per locus
 ```
-### Are the numbers obtained for ABBA SNPs are significantly different than the average? ### 
+### Are the numbers obtained for ABBA SNPs significantly different than the average? ### 
 ```
 #!/bin/R
 
