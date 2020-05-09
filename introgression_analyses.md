@@ -306,9 +306,10 @@ nw_ed ml_best_supports_UCE_pruned.trees 'i & b<=50' o > ml_best_supports_UCE_pru
 setwd("/Users/apple/Dropbox/Tesi/Data/Durham/PhyloNetworks/definitive_analyses")
 Puffinus_ddRAD <- SNPs2CF(seqMatrix = "Puffinus_ddRAD.phy", outputName = "Puffinus_ddRAD_SNPs2CF.csv", save.progress = T, cores = 4) #ddRAD data
 Puffinus_UCE <- SNPs2CF(seqMatrix = "Puffinus_UCE.phy", outputName = "Puffinus_UCE_SNPs2CF.csv", save.progress = T, cores = 4) #UCE data
+```
 
-## Gene trees: example ddRAD data ##
-
+##### Gene trees: example ddRAD data
+```
 #!/bin/env/julia
 
 using PhyloNetworks
@@ -337,9 +338,10 @@ d_sp_dgBS10 = readTableCF!(df_sp_dgBS10);
 net0_dgBS10 = snaq!(dastraltree, d_sp_dgBS10, hmax=0, filename="net0_dgBS10", seed=1234)
 
 ### I do the same for hmax=1,2,3 and 4 changing the starting tree to be the hmax-1 optimized topology and changing hmax in snaq! ###
+```
 
-### TICR test: example ddRAD BS10 data ###
-
+##### TICR test: example ddRAD BS10 data ###
+```
 #!/bin/R
 
 library(phylolm)
@@ -381,26 +383,27 @@ length(outlier.4taxa.05)
 q05 = as.matrix(quartetCF[outlier.4taxa.05,1:4])
 head(q05)
 sort(table(as.vector(q05)),decreasing=TRUE)
-
+```
 ### Optimise candidate networks: example BS10 data ###
 
-## Read CF table and network ##
+##### Read CF table and network ##
+```
 cd("/Users/apple/Dropbox/Tesi/Data/Durham/PhyloNetworks/definitive_analyses/")
 df_sp = CSV.read("Puffinus_ddRAD_BS10_genetreesCF.csv", categorical=false);
 d_sp = readTableCF!(df_sp);
 net1file = ("net1.nwk")
 net1 = readTopology(networkfile)
-
-## Optimise every network with the CF values from the table: example network lherminieri -> boydi (net1) ##
-
+```
+##### Optimise every network with the CF values from the table: example network lherminieri -> boydi (net1) ##
+```
 net1alt = topologyMaxQPseudolik!(net1, d_sp);
-
-## Calculate its pseudo-deviance ##
-
+```
+##### Calculate its pseudo-deviance ##
+`
 net1alt.loglik
-
-## Reroot, save and plot to see the inheritance probabilities ##
-
+`
+##### Reroot, save and plot to see the inheritance probabilities ##
+```
 rootatnode!(net1alt, "P_nativitatis")
 writeTopology(net1alt, "net1alt.nwk")
 plot(net1alt, :R, showGamma=true);
