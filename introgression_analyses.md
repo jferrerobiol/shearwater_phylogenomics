@@ -235,7 +235,9 @@ head(atenagri$p_value[atenagri$value==13],1)
 ### Preparing input files to calculate CF tables ###
 #### ddRAD SNPs dataset 
 ```
-echo PLBo2 PMau2 PLBa3 PPuf2 PYel2 PBNi01 PHut8 PLLh1 PNNe2 PGav96 PNat1 PBDi1 PBBa65 POpi2 PEle2 | tr ' ' '\n' > Puffinus.txt #create a list of the most complete individual for every species 
+echo PLBo2 PMau2 PLBa3 PPuf2 PYel2 PBNi01 PHut8 PLLh1 PNNe2 PGav96 PNat1 PBDi1 PBBa65 POpi2 PEle2 | tr ' ' '\n' > Puffinus.txt 
+
+#create a list of the most complete individual for every species 
 cat Shearwaters_clust89_percent75.vcf | sed 's/.assembled//g' | vcftools --vcf - --keep Puffinus.txt --non-ref-ac-any 1 --recode --recode-INFO-all --stdout > Puffinus_clust89_percent75_vcftools.vcf #create a vcf file with only data for the selected individuals and only biallelic sites
 loci=($(cat Puffinus_clust89_percent75_vcftools.vcf | grep -v "#" | cut -f1 | uniq)) #create a list of the loci included in the vcf file
 cat Puffinus_clust89_percent75_vcftools.vcf | grep "^#" > Puffinus_clust89_percent75_vcftools_1snpxlocus.vcf #create a file where we will store a vcf file with only one SNP per locus
@@ -243,9 +245,12 @@ for item in ${loci[@]}; do grep -P "^$item\t" Puffinus_clust89_percent75_vcftool
 python ../../../../../programari/vcf2phylip.py -i Puffinus_clust89_percent75_vcftools_1snpxlocus.vcf #convert the vcf file to a phylip file
 cp  Puffinus_clust89_percent75_vcftools_1snpxlocus.min4.phy ../../../../phylonetworks/definitive_analyses/Puffinus_ddRAD.phy #rename it and this will be the input for the SNP2CF function
 ```
-### UCE SNPs dataset ##
+#### UCE SNPs dataset ##
 ```
-echo POpi2 PBBa65 PNNeD1 PLLo1 PBNiD1 PBDiD1 PGav96 PLBa2 PHut8 PYel1 PPufD1 PMau2 PNatD1 PLBo2 PEle2 | tr ' ' '\n' > Puffinus.txt #create a list of the most complete individual for every species
+echo POpi2 PBBa65 PNNeD1 PLLo1 PBNiD1 PBDiD1 PGav96 PLBa2 PHut8 PYel1 PPufD1 PMau2 PNatD1 PLBo2 PEle2 | tr ' ' '\n' > Puffinus.txt 
+
+#create a list of the most complete individual for every species
+
 for file in *vcf; do cat $file | vcftools --vcf - --keep Puffinus.txt --non-ref-ac-any 1 --recode --recode-INFO-all --stdout > ../dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_Puffinus/$file; done #create one vcf file per locus containing only the selected species
 for file in *vcf; do cat $file | grep "^#" > ../dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_Puffinus_1SNP/$file; cat $file | grep -v "^#" | shuf | head -1 >> ../dataset_out_phased_iupac_trimmed_cleaned_selected_75_vcf_Puffinus_1SNP/$file; done #from the last vcf select only one SNP per locus and save it to a new vcf per locus
 for file in *vcf; do #convert the single SNP vcf to fasta
@@ -263,7 +268,8 @@ for file in *vcf; do #convert the single SNP vcf to fasta
   	done
 done
 ```
-````
+
+```
 TriSeq -in dataset_out_phased_iupac_trimmed_cleaned_selected_75_fasta_Puffinus_1SNP/*fa -o UCE_75_phased_iupac_Puffinus -of phylip #Concatenate all the previous fasta into a concatenated phylip file
 mv UCE_75_phased_iupac_Puffinus.phy Puffinus_UCE.phy #rename the phylip file to input it to SNP2CF
 ```
@@ -281,6 +287,7 @@ nw_prune -v ml_best_supports_UCE.trees POpi2 PBBa65 PNNeD1 PLLo1 PBNiD1 PBDiD1 P
 nw_ed ml_best_supports_UCE_pruned.trees 'i & b<=10' o > ml_best_supports_UCE_pruned_BS10.trees #collapse nodes with BS < 10
 nw_ed ml_best_supports_UCE_pruned.trees 'i & b<=50' o > ml_best_supports_UCE_pruned_BS50.trees #collapse nodes wit BS < 50
 ```
+
 ### Calculate CF tables ###
 
 ##### SNPs
