@@ -139,7 +139,7 @@ END {
 
 done
 ```
-## # Calculate mean number of haplotypes
+### Calculate mean number of haplotypes
 ```
 a=$(cat mean_num_haplotypes_ATen-AGri.tsv | awk '{sum+=$1}END{print sum/NR}')
 
