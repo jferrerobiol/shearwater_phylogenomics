@@ -80,9 +80,9 @@ cat Shearwaters_clust89_min5.vcf | grep "^#C" | cut -f10- | tr '\t' '\n' | grep 
 
 vcftools --vcf Shearwaters_clust89_min5.vcf --non-ref-ac-any 1 --keep ard_list --recode --recode-INFO-all --stdout > Ardenna_clust89_min5_dsuite.vcf # generate a vcf file with only biallelic SNPs and Ardenna species
 ```
-### Modify the ard_list file and save it as popmap_dsuite_ardenna.tsv for input to Dsuite ##
+#### Modify the ard_list file and save it as popmap_dsuite_ardenna.tsv for input to Dsuite ##
 
-### Write tree (ardenna.nwk) from scratch based on relationships from the TENT 75 analyses ##
+#### Write tree (ardenna.nwk) from scratch based on relationships from the TENT 75 analyses ##
 
 ### Run Dsuite Dtrios ##
 
