@@ -115,9 +115,9 @@ END {
         print str
     }
 }' | sort | uniq | wc -l
-```
+
 ### Calculate the mean number of haplotypes per loci with the same missing data restrictions ###
-```
+
 list=($(cat Shearwaters_clust89_min5.vcf | grep -v "^#" | cut -f1,2,5,10-22 | grep -vE "\,.\," | grep -v "./." | cut -f1 | sort | uniq))
 for locus in ${list[@]}; do
 cat Shearwaters_clust89_min5.vcf | grep -v "^##" | grep "^$locus	" | cut -f10- | tr '|' '\t' | awk '
@@ -140,16 +140,16 @@ END {
 done
 ```
 ## # Calculate mean number of haplotypes
-`
+```
 a=$(cat mean_num_haplotypes_ATen-AGri.tsv | awk '{sum+=$1}END{print sum/NR}')
 
 printf "ATen-AGri haplotypes mean = "$a
-`
+```
 ### Calculate the mean number of SNPs per loci with the same missing data restrictions ###
-`
+```
 cat Shearwaters_clust89_min5.vcf | grep -v "^#" | cut -f1,2,5,10-22 | grep -vE "\,.\," | grep -v "./." | cut -f1 | sort | uniq -c | sed -E 's/^ +//g' | tr ' ' '\t' | awk '{sum+=$1}END{print sum/NR}' # print the count
 cat Shearwaters_clust89_min5.vcf | grep -v "^#" | cut -f1,2,5,10-22 | grep -vE "\,.\," | grep -v "./." | cut -f1 | sort | uniq -c | sed -E 's/^ +//g' | tr ' ' '\t' | cut -f1 > mean_num_snps_ATen-AGri.tsv # print a file with number of SNPs per locus
-`
+```
 ### Are the numbers obtained for ABBA SNPs are significantly different than the average? ### 
 ```
 #!/bin/R
