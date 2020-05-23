@@ -40,7 +40,7 @@ write.tree(t,file = "mcmctree.tre") # write tree without edge lengths
 (((((((ACar1,ACre1),AGra1),AGri1),ATen1),(ABul1,APac1)),(CLeu1,(CEdw1,(CDio1,CBor1)))),(PNat1,((PHut1,PGav1),((PEle1,((POpi1,PNNe1),((PBDi1,PBNi1),PBBa1))),((PPuf1,(PMau1,PYel1)),(PLLh1,(PLBo1,PLBa1)))))))'>.999<1.001';
 ```
 
-## The other trees that will be used will be modifications of this tree specifying different node calibrations ##
+#### The other trees that will be used will be modifications of this tree specifying different node calibrations ##
 
 ###############################################
 ## 3) mcmc3r analyses to chose a clock model ##
