@@ -27,7 +27,7 @@ file2=$(echo $file | sed 's/-READ1/-READ2/')
 sample=$(echo $file | cut -d "-" -f1)
 ```
 
-#### Create the directory jerarchy as required by phyluce
+#### Create the directory hierarchy as required by phyluce
 ```
 mkdir ../cleaned/$sample
 mkdir ../cleaned/$sample/raw-reads
