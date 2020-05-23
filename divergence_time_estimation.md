@@ -31,14 +31,14 @@ t <- drop.tip(t,c("FGla","CLeu2","CEdw2","CDio2","CBor2","APac2","ATen2","AGri2"
 t$edge.length<-NULL # get rid of edge lengths
 t$node.label<-NULL # get rid of branch supports
 write.tree(t,file = "mcmctree.tre") # write tree without edge lengths
-
+```
 ### Add a first line containing the number of species and the number of trees (26 1) ###
 
 ### Fix the root adding a root calibration for mcmc3r analyses: '>0.999,<1.001' ###
-
+```
 26 1
 (((((((ACar1,ACre1),AGra1),AGri1),ATen1),(ABul1,APac1)),(CLeu1,(CEdw1,(CDio1,CBor1)))),(PNat1,((PHut1,PGav1),((PEle1,((POpi1,PNNe1),((PBDi1,PBNi1),PBBa1))),((PPuf1,(PMau1,PYel1)),(PLLh1,(PLBo1,PLBa1)))))))'>.999<1.001';
-
+```
 
 ## The other trees that will be used will be modifications of this tree specifying different node calibrations ##
 
@@ -49,6 +49,7 @@ write.tree(t,file = "mcmctree.tre") # write tree without edge lengths
 ### Estimate the parameters for the birth and death priors ###
 
 ## Calculate birth and death rates for the whole tree
+```
 calib <- makeChronosCalib(t, node = "root", age.min = 22.9, age.max = 23.1, interactive = FALSE, soft.bounds = FALSE)
 chronos.control()
 t2 <- chronos(t, lambda = 1, model = "correlated", quiet = FALSE,
@@ -57,13 +58,13 @@ t2 <- chronos(t, lambda = 1, model = "correlated", quiet = FALSE,
 fit.bd<-birthdeath(t2)
 fit.bd
 bd(fit.bd)
-
+```
 ### For each data subset I followed the tutorial Estimating the marginal likelihood of a relaxed-clock model with MCMCTree from dos Reis lab:
-
+```
 https://dosreislab.github.io/2017/10/24/marginal-likelihood-mcmc3r.html
-
+```
 ## An example of an MCMCTree control file used in the analysis ##
-
+```
 seed = -1
 seqfile = ./UCE_95_sel1.mcmctree.phy
 treefile = ./mcmc3r.tre
@@ -88,7 +89,7 @@ print = 1
 burnin = 4000
 sampfreq = 6
 nsample = 20000
-
+```
 ## The results for the best models are shown in Supplementary Table A3 ##
 
 #################################################################
