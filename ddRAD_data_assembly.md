@@ -474,7 +474,7 @@ null=dev.off()
 ```
 ### STACKS m parameter plots ###
 
-### Script to count the number and proportion of singletons in the data sets with m values from 3 to 10 ##
+#### Script to count the number and proportion of singletons in the data sets with m values from 3 to 10 ##
 ```
 cd $HOME/Durham/ddRAD/info
 printf '#m_value\tn_singletons\tn_snps\tp_singletons\n' > singleton_count.tsv # Write header on file containing number and proportion of singletons per m value
@@ -502,7 +502,7 @@ for dire in p*40 # start a loop to enter the directories for all m values
 done
 ```
 
-### Plots of singleton number and proportion ##
+#### Plots of singleton number and proportion ##
 ```
 #!/bin/R
 
@@ -535,13 +535,13 @@ dev.off()
 ## 8) STACKS denovo analyses ##
 ###############################
 
-#### In silico extraction of outgroups radtags (Oceanites oceanicus, Thalassarche chlororhynchos and Fulmarus glacialis ###
+### In silico extraction of outgroups radtags (Oceanites oceanicus, Thalassarche chlororhynchos and Fulmarus glacialis ###
 
-#### Extract the radtags with Digital_RADs.py from DaCosta & Sorenson 2014 (example Oceanites oceanicus) ##
+### Extract the radtags with Digital_RADs.py from DaCosta & Sorenson 2014 (example Oceanites oceanicus) ##
 ```
 python3 Digital_RADs.py Oceanites_oceanicus.genomic.fa Oceoce_radtags_150-300 2 GAATTC CCGG 150 300
 ```
-#### Modify the output file so as it can be used in STACKS ##
+### Modify the output file so as it can be used in STACKS ##
 ```
 cat Oceoce_radtags_150-300 | grep -v "contig" | cut -f 1-5 | sed -E 's/^/>/' | sed -E 's/\t/_/g' | sed -E 's/(.+_.+_.+)_1_/\1_1_R1\n/' | sed -E 's/(.+_.+_.+)_-1_/\1_-1_R1\n/' | sed 's/^GAATTC/AATTC/g'| cut -c 1-145 > Oceoce_radtags_150-300_R1.fa
 
@@ -551,9 +551,9 @@ cat Oceoce_radtags_150-300_R1.fa | gzip > OOce.1.fa.gz
 
 cat Oceoce_radtags_150-300_R2.fa | gzip > OOce.2.fa.gz
 ```
-#### Subsample reads from samples with coverage >60x so as they have coverage of ~50x ###
+### Subsample reads from samples with coverage >60x so as they have coverage of ~50x ###
 
-#### I select 1630478 reads which is the mean of the 5 samples with coverages around 50x
+### I select 1630478 reads which is the mean of the 5 samples with coverages around 50x
 ```
 cd $HOME/Durham/ddRAD/cleaned_sel/
 
@@ -588,7 +588,7 @@ for file in *fq.gz; do
   fi
 done
 ```
-#### After checking that it worked, remove original directories and rename the directories with the trimmed files ##
+### After checking that it worked, remove original directories and rename the directories with the trimmed files ##
 ```
 rm -r $HOME/Durham/ddRAD/cleaned_sel/ $HOME/Durham/ddRAD/cleaned_sel_R2/
 mv $HOME/Durham/ddRAD/cleaned_sel_bo/ $HOME/Durham/ddRAD/cleaned_sel/
@@ -596,29 +596,29 @@ mv $HOME/Durham/ddRAD/cleaned_sel_R2_bo/ $HOME/Durham/ddRAD/cleaned_sel_R2/
 ```
 ### Run the STACKS pipeline for each parameterization (example optimal) ###
 
-### Stacks pipeline for PE ddRAD data using outgroups extracted in silico ## 
-### Outputs: concatenated phylip files for 3 different completeness values: 65 (p18_in), 75 (p21_in) and 95% (p26_in) ##
+#### Stacks pipeline for PE ddRAD data using outgroups extracted in silico ## 
+#### Outputs: concatenated phylip files for 3 different completeness values: 65 (p18_in), 75 (p21_in) and 95% (p26_in) ##
 
-### Setting the data set and cd to it
+#### Setting the data set and cd to it
 ```
 dataset=optimalPE
 cd $HOME/Durham/ddRAD/stacks.denovo
 mkdir $dataset
 cd $dataset
 ```
-### Setting path variables
+#### Setting path variables
 ```
 samples=$HOME/Durham/ddRAD/cleaned_sel/
 popmap=$HOME/Durham/ddRAD/info/popmap_woutgroups_tot.tsv
 popmap2=$HOME/Durham/ddRAD/info/popmap_woutgroups.tsv
 ```
-### Setting parameter variables
+#### Setting parameter variables
 ```
 m=3
 M=5
 n=8
 ```
-### Ustacks: outgroups: m 1 as it comes from an insilico extraction, M as the rest.
+#### Ustacks: outgroups: m 1 as it comes from an insilico extraction, M as the rest.
 ```
 outgroups=(OOce FGra TChl OTet FGla) #List of the outgroups
 id=(1 2 3 4 5) #List of the id to give to each outgroup
@@ -626,7 +626,7 @@ for ((i = 0; i < 5; i++)); do #Start for loop to treat each outgroup with ustack
   ustacks -f $samples${outgroups[i]}.1.fa.gz -i ${id[i]} --name ${outgroups[i]} -o ./ -m 1 -M $M -p 40 &> ustacks_${outgroups[i]}.oe #Using path variables defined before and array variables with suffixes that refer to the elements of the predefined lists
 done
 ```
-### Ustacks: samples with high coverage.
+#### Ustacks: samples with high coverage.
 ##### Some of these samples have already been shuffled to reduce the number of reads. Disable secondary reads for these samples as they have already enough reads and like this we make them more comparable with lower coverage samples: -N 0
 ```
 highcov=(CLeu1 CLeu2 CDio1 CBor1 AGri1 ATen1 ATen2 PPuf2 PYel2 PMau1 PMau2 PLBa1 PLBa2 PLBa3 PLBo1 PLBo2)
@@ -635,7 +635,7 @@ for ((i = 0; i < 16; i++)); do
   ustacks -f $samples${highcov[i]}.1.fq.gz -i ${id[i]} --name ${highcov[i]} -o ./ -m $m -M $M -N 0 -p 40 &> ustacks_${highcov[i]}.oe
 done
 ```
-### Ustacks: samples with coverage 10-50x. Here we allow secondary reads as they do not have so high coverages
+#### Ustacks: samples with coverage 10-50x. Here we allow secondary reads as they do not have so high coverages
 ```
 norm=(CDio2 CBor2 CEdw1 CEdw2 CEdw17 APac1 APacLMG ABul1 AGri2 ACre1 ACre8 ACar3 ACar5 AGra1 AGra2 PNat1 PNat2 XPP3 PYel1 POpi2 PNNe1 PNNe2 PGav76 PGav96 PHut8 XPLL1 PLLh1 PLLo1 PBNi45 PBNi01 PBBa54b PBBa65 PBDi1 PAHa2 PEle2 PEle3 aPEle)
 id=(9 11 12 13 14 15 16 17 19 22 23 24 25 26 27 28 29 31 32 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53)
@@ -643,7 +643,7 @@ for ((i = 0; i < 37; i++)); do
   ustacks -f $samples${norm[i]}.1.fq.gz -i ${id[i]} --name ${norm[i]} -o ./ -m $m -M $M -p 40 &> ustacks_${norm[i]}.oe
 done
 ```
-### Outgroups: replace U by O to snps, tags and models files as it comes from an haploid genome and thus everything is homozygotic by definition
+#### Outgroups: replace U by O to snps, tags and models files as it comes from an haploid genome and thus everything is homozygotic by definition
 ```
 for ((i = 0; i < 5; i++)); do
   zcat ${outgroups[i]}.tags.tsv.gz | sed 's/U/O/g' | gzip > ${outgroups[i]}bo.tags.tsv.gz #Replace U by O and save in a file with the same name but with sufix bo
@@ -657,23 +657,23 @@ for ((i = 0; i < 5; i++)); do
   mv ${outgroups[i]}bo.snps.tsv.gz ${outgroups[i]}.snps.tsv.gz
 done
 ```
-### Cstacks: creating the catalog
+#### Cstacks: creating the catalog
 ```
 cstacks -P ./ -n $n -p 40 -M $popmap &> cstacks.oe #Using the predefined value for n and the complete popmap
 ```
-### Sstacks: matching samples to the catalog to call the alleles and know which of the catalog samples are present in every sample
+#### Sstacks: matching samples to the catalog to call the alleles and know which of the catalog samples are present in every sample
 ```
 sstacks -P ./ -p 40 -M $popmap &> sstacks.oe #Using the complete popmap
 ```
-### tsv2bam: making a bam file with the information of the matches to have the information in form of an alignment
+#### tsv2bam: making a bam file with the information of the matches to have the information in form of an alignment
 ```
 tsv2bam -P ./ -M $popmap -R ../../cleaned_sel_R2/ -t 40 &> tsv2bam.oe
 ```
-### gstacks: incorporating PE data, merging the R2 and using SNP calling method Maruki to refine the SNP calls
+#### gstacks: incorporating PE data, merging the R2 and using SNP calling method Maruki to refine the SNP calls
 ```
 gstacks -P ./ -M $popmap -t 40 &> gstacks.oe
 ```
-### populations: selecting the samples and the loci we want to build the phylogenies and making the final alignments
+#### populations: selecting the samples and the loci we want to build the phylogenies and making the final alignments
 ```
 popmap=$HOME/Durham/ddRAD/info/popmap_ingroup.tsv # We will work with no outgroups
 
