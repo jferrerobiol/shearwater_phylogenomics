@@ -520,9 +520,9 @@ decj <- dplyr::select(decj, -AIC)
 ### LRT for the favoured_similar_cond with and without j
 lrttest(-52.17,-62.48,3,2,returnwhat = "pval")
 
-################################################################################################
+##########################################################################################
 ## 6) Make nice plots for the best model: DEC+j with dispersal favoured between similar areas ##
-################################################################################################
+##########################################################################################
 
 ### Plot with the most probable ancestral areas
 pdf("most_prob_anc_ranges.pdf", width=8, height=8)
