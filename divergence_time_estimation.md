@@ -392,3 +392,6 @@ ggsave("infini_plots_dif_dat.pdf", p_infi_plot_dif_dat, device="pdf", units="cm"
        width=42, height=14, limitsize=FALSE)
 
 ```
+###############
+## End of script ##
+###############
