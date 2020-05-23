@@ -186,3 +186,7 @@ java -jar ../../../programari/Astral/astral.5.6.3.jar -q astral_default_ddRAD-UC
 `beast -threads 25 -seed $RANDOM snapp_UCE_phased_default.xml`
 
 ### Summarize the sample of trees with Treeannotator ##
+
+###############
+## End of script ##
+###############
