@@ -502,7 +502,7 @@ for dire in p*40 # start a loop to enter the directories for all m values
 done
 ```
 
-## Plots of singleton number and proportion ##
+### Plots of singleton number and proportion ##
 ```
 #!/bin/R
 
@@ -523,7 +523,6 @@ dev.off()
 ## 7) Chosen Parameterizations ##
 #####################
 
-##################################################################################################################################
 #### a) STACKS optimal:  m3 M5 n8: results of optimizing each of the parameters as in Paris et al. 2017 and Rochette & Catchen 2017 #
 #### b) STACKS default:  m3 M2 n1: Stacks default parameterization optimized for population genomics analyses                       #
 #### c) STACKS higher n: m3 M5 n15: parameterization to see the effects of adding extremely variable loci but also more paralogs    #
@@ -531,7 +530,6 @@ dev.off()
 #### e) PyRAD clust 89: similar to STACKS higher n                                                                                  #
 #### f) PyRAD clust 94: similar to STACKS optimal                                                                                   #
 #### g) STACKS refmap: integrate alignments with the higher m parameterization loci mapped to Calonectris borealis genome           #
-##################################################################################################################################
 
 ###############################           
 ## 8) STACKS denovo analyses ##
