@@ -246,3 +246,6 @@ bm_wsfreq <- ggplot(corr, aes(x=Body_mass_hbw, y=ws_freq)) +
 lifehist_ws <- ggarrange(lognpairs_wsfreq, bm_wsfreq, ncol=2, nrow=1, labels = c("a)", "b)"))
 ggsave("life_hist_vs_WtoS_mutations.pdf", lifehist_ws, device="pdf", units="cm", width=30, height=13, limitsize=FALSE)
 ```
+###############
+## End of script ##
+###############
