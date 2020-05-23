@@ -1,22 +1,19 @@
-#!/bin/bash
-#$ -V
-#$ -cwd
-
 ##################################################################
 ## 1) Prepare the 4 subsets for clock model selection in mcmc3r ##
 ##################################################################
-
+```
 sel=$(ls | shuf | head -60 | tr '\n' ' ') # select 60 UCE loci randomly from the 95% dataset
 TriSeq -in $sel -grep ACar1 ACre1 AGra1 AGri1 ATen1 ABul1 APac1 CLeu1 CEdw1 CDio1 CBor1 PNat1 PHut1 PGav1 PEle1 POpi1 PNNe1 PBDi1 PBNi1 PBBa1 PPuf1 PMau1 PYel1 PLLh1 PLBo1 PLBa1 -of phylip -o ../../mcmctree/UCE_95_sel2.mcmctree
 sel=$(ls | shuf | head -120 | tr '\n' ' ') # select 120 ddRAD loci randomly from the 95% dataset
 TriSeq -in $sel -grep ACar1 ACre1 AGra1 AGri1 ATen1 ABul1 APac1 CLeu1 CEdw1 CDio1 CBor1 PNat1 PHut1 PGav1 PEle1 POpi1 PNNe1 PBDi1 PBNi1 PBBa1 PPuf1 PMau1 PYel1 PLLh1 PLBo1 PLBa1 -of phylip -o ../../mcmctree/ddRAD_95_sel2.mcmctree
+```
 
 #####################################################
 ## 2) Prepare the input tree for MCMCtree analyses ##
 #####################################################
 
 ### Prune the Exabayes tree ###
-
+```
 #!/bin/R
 
 ## Loading libraries
@@ -41,6 +38,7 @@ write.tree(t,file = "mcmctree.tre") # write tree without edge lengths
 
 26 1
 (((((((ACar1,ACre1),AGra1),AGri1),ATen1),(ABul1,APac1)),(CLeu1,(CEdw1,(CDio1,CBor1)))),(PNat1,((PHut1,PGav1),((PEle1,((POpi1,PNNe1),((PBDi1,PBNi1),PBBa1))),((PPuf1,(PMau1,PYel1)),(PLLh1,(PLBo1,PLBa1)))))))'>.999<1.001';
+
 
 ## The other trees that will be used will be modifications of this tree specifying different node calibrations ##
 
@@ -97,15 +95,12 @@ nsample = 20000
 ## 4) Prepare the alignments for dating analyses with MCMCTree ##
 #################################################################
 
-#!/bin/bash
-#$ -V
-#$ -cwd
-
 ### Remove individuals keeping the most complete per taxon ###
+```
 TriSeq -c -in ddRAD_95.phy -grep ACar1 ACre1 AGra1 AGri1 ATen1 ABul1 APac1 CLeu1 CEdw1 CDio1 CBor1 PNat1 PHut1 PGav1 PEle1 POpi1 PNNe1 PBDi1 PBNi1 PBBa1 PPuf1 PMau1 PYel1 PLLh1 PLBo1 PLBa1 -of mcmctree -o ../mcmctree/ddRAD_95_mcmctree_tot.phy ## all ddRAD 95%
 TriSeq -c -in UCE_95.phy -grep ACar1 ACre1 AGra1 AGri1 ATen1 ABul1 APac1 CLeu1 CEdw1 CDio1 CBor1 PNat1 PHut1 PGav1 PEle1 POpi1 PNNe1 PBDi1 PBNi1 PBBa1 PPuf1 PMau1 PYel1 PLLh1 PLBo1 PLBa1 -of mcmctree -o ../mcmctree/UCE_95_mcmctree_tot.phy ## all UCE 95%
 TriSeq -in UCE_95_mcmctree_tot.phy_mcmctree.phy ddRAD_95_mcmctree_tot.phy_mcmctree.phy -of mcmctree -o concat_95_mcmctree_tot.phy ## concat 95% with 2 partitions (UCE, ddRAD)
-
+```
 #######################################################################################
 ## 5) Calculate a rough substitution rate in baseml to inform the rgene_gamma prior ##
 #######################################################################################
@@ -113,12 +108,12 @@ TriSeq -in UCE_95_mcmctree_tot.phy_mcmctree.phy ddRAD_95_mcmctree_tot.phy_mcmctr
 ### I run baseml for UCE and ddRAD datasets with the following tree file and control file ###
 
 ## Tree file with root fixed at 23.03 Ma ##
-
+```
 26 1
 (((((((ACar1,ACre1),AGra1),AGri1),ATen1),(ABul1,APac1)),(CLeu1,(CEdw1,(CDio1,CBor1)))),(PNat1,((PHut1,PGav1),((PEle1,((POpi1,PNNe1),((PBDi1,PBNi1),PBBa1))),((PPuf1,(PMau1,PYel1)),(PLLh1,(PLBo1,PLBa1)))))))'@.2303';
-
+```
 ## Example control file ##
-
+```
       seqfile = ../../ddRAD_95_tot.mcmctree.phy 
      treefile = ./baseml.tre
 
@@ -146,13 +141,13 @@ TriSeq -in UCE_95_mcmctree_tot.phy_mcmctree.phy ddRAD_95_mcmctree_tot.phy_mcmctr
  RateAncestor = 0   * (0,1,2): rates (alpha>0) or ancestral states
     cleandata = 0  * remove sites with ambiguity data (1:yes, 0:no)?
   fix_blength = 0
-
+```
 #################################################################################
 ## 6) MCMCTree analyses with different datasets, root calibrations and  bounds ##
 #################################################################################
 
 ### For both, 4 calibrations and 3 calibrations we run the following bash script to run all the MCMCTree analyses at once ###
-
+```
 cd /ddn/data/sbvd77/mcmctree/dating_analyses
 list=(UCE_95_tot_3calib ddRAD_95_tot_3calib concat_95_tot_3calib)
 
@@ -184,9 +179,9 @@ for case in ${list[@]}; do
   cd ..
 
 done
-
+```
 ### Script to collect the results from all the runs ###
-
+```
 cd /ddn/data/sbvd77/mcmctree/dating_analyses/3calib
 
 tests=($(find -name "*txt" | grep -vE "hessian|mcmc|tests"))
@@ -197,9 +192,9 @@ for i in ${tests[@]}; do
   cat $i | tail -40 | grep "t_n" | cut -d "_" -f2 | sed -E 's/\ +/	/g' | cut -f1,2,5,6 | sed -E 's/\((.*)\,(.*)\)/\1\2/' | sed -E "s/^/$var    /g" >> results_tests_definitive.tsv
 
 done
-
+```
 ### Example MCMCTree control file from the UCE analysis ###
-
+```
 seed = -1
 seqfile = /ddn/data/sbvd77/mcmctree/UCE_95_tot_3calib.mcmctree.phy
 treefile = /ddn/data/sbvd77/mcmctree/dating_analyses/mcmctree_23_3calib.tre
@@ -231,11 +226,11 @@ print = 1
 burnin = 5000
 sampfreq = 500
 nsample = 10000
-
+```
 ######################################################
 ## 7) Plots for divergence time estimation analyses ##
 ######################################################
-
+```
 #!/bin/R
 
 ### Tree with rootmax_23 parameterization and posterior distributions plotted ###
@@ -395,3 +390,4 @@ p_infi_plot_dif_dat <- ggarrange(infi_plot_23_ddRAD, infi_plot_23_uce, infi_plot
 ggsave("infini_plots_dif_dat.pdf", p_infi_plot_dif_dat, device="pdf", units="cm", 
        width=42, height=14, limitsize=FALSE)
 
+```
