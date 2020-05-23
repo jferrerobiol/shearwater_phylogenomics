@@ -844,3 +844,6 @@ for ((i = 0; i < ${#ddRAD[@]}; i++)); do sed -iE "s/${ddRAD[i]}/${concat[i]}/" d
 
 python vcf2snapp.py highermPE/p20_fgla/populations.single_snp.vcf
 
+###############
+## End of script ##
+###############
