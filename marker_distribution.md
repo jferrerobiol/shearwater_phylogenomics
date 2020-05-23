@@ -528,3 +528,6 @@ UCE_ddRAD_distp <- ggplot(UCE_dd_dist, aes(x=UCE_ddRAD_dist$meanDistance$permute
 dist <- ggarrange(ddRAD_CDS_distp, UCE_CDS_distp, UCE_ddRAD_distp, ncol=1, nrow=3, labels = "auto")
 ggsave("mean_distance.pdf", dist, device="pdf", units="cm", width=20, height=30, limitsize=FALSE)
 ```
+###############
+## End of script ##
+###############
