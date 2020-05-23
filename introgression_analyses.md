@@ -408,3 +408,6 @@ rootatnode!(net1alt, "P_nativitatis")
 writeTopology(net1alt, "net1alt.nwk")
 plot(net1alt, :R, showGamma=true);
 ```
+###############
+## End of script ##
+###############
