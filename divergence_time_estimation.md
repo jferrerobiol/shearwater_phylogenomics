@@ -32,15 +32,15 @@ t$edge.length<-NULL # get rid of edge lengths
 t$node.label<-NULL # get rid of branch supports
 write.tree(t,file = "mcmctree.tre") # write tree without edge lengths
 ```
-### Add a first line containing the number of species and the number of trees (26 1) ###
+##### Add a first line containing the number of species and the number of trees (26 1) ###
 
-### Fix the root adding a root calibration for mcmc3r analyses: '>0.999,<1.001' ###
+##### Fix the root adding a root calibration for mcmc3r analyses: '>0.999,<1.001' ###
 ```
 26 1
 (((((((ACar1,ACre1),AGra1),AGri1),ATen1),(ABul1,APac1)),(CLeu1,(CEdw1,(CDio1,CBor1)))),(PNat1,((PHut1,PGav1),((PEle1,((POpi1,PNNe1),((PBDi1,PBNi1),PBBa1))),((PPuf1,(PMau1,PYel1)),(PLLh1,(PLBo1,PLBa1)))))))'>.999<1.001';
 ```
 
-#### The other trees that will be used will be modifications of this tree specifying different node calibrations ##
+##### The other trees that will be used will be modifications of this tree specifying different node calibrations ##
 
 ###############################################
 ## 3) mcmc3r analyses to chose a clock model ##
@@ -59,7 +59,7 @@ fit.bd<-birthdeath(t2)
 fit.bd
 bd(fit.bd)
 ```
-### For each data subset I followed the tutorial Estimating the marginal likelihood of a relaxed-clock model with MCMCTree from dos Reis lab:
+##### For each data subset I followed the tutorial Estimating the marginal likelihood of a relaxed-clock model with MCMCTree from dos Reis lab:
 ```
 https://dosreislab.github.io/2017/10/24/marginal-likelihood-mcmc3r.html
 ```
@@ -90,7 +90,7 @@ burnin = 4000
 sampfreq = 6
 nsample = 20000
 ```
-## The results for the best models are shown in Supplementary Table A3 ##
+##### The results for the best models are shown in Supplementary Table A3 ##
 
 #################################################################
 ## 4) Prepare the alignments for dating analyses with MCMCTree ##
