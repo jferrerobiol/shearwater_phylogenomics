@@ -45,3 +45,6 @@ TriSeq -in uce*phy -of phylip -rm PAAsD1 --missing-filter 25 25 -o UCE_75
 ```
 TriSeq -in ddRAD_75.phy UCE_75.phy -of phylip -o concat_UCE-ddRAD
 ```
+###############
+## End of script ##
+###############
