@@ -535,7 +535,7 @@ dev.off()
 ## 8) STACKS denovo analyses ##
 ###############################
 
-### In silico extraction of outgroups radtags (Oceanites oceanicus, Thalassarche chlororhynchos and Fulmarus glacialis ###
+#### In silico extraction of outgroups radtags (Oceanites oceanicus, Thalassarche chlororhynchos and Fulmarus glacialis ###
 
 #### Extract the radtags with Digital_RADs.py from DaCosta & Sorenson 2014 (example Oceanites oceanicus) ##
 ```
@@ -551,7 +551,7 @@ cat Oceoce_radtags_150-300_R1.fa | gzip > OOce.1.fa.gz
 
 cat Oceoce_radtags_150-300_R2.fa | gzip > OOce.2.fa.gz
 ```
-### Subsample reads from samples with coverage >60x so as they have coverage of ~50x ###
+#### Subsample reads from samples with coverage >60x so as they have coverage of ~50x ###
 
 #### I select 1630478 reads which is the mean of the 5 samples with coverages around 50x
 ```
@@ -596,17 +596,17 @@ mv $HOME/Durham/ddRAD/cleaned_sel_R2_bo/ $HOME/Durham/ddRAD/cleaned_sel_R2/
 ```
 ### Run the STACKS pipeline for each parameterization (example optimal) ###
 
-#### Stacks pipeline for PE ddRAD data using outgroups extracted in silico ## 
-#### Outputs: concatenated phylip files for 3 different completeness values: 65 (p18_in), 75 (p21_in) and 95% (p26_in) ##
+### Stacks pipeline for PE ddRAD data using outgroups extracted in silico ## 
+### Outputs: concatenated phylip files for 3 different completeness values: 65 (p18_in), 75 (p21_in) and 95% (p26_in) ##
 
-##### Setting the data set and cd to it
+### Setting the data set and cd to it
 ```
 dataset=optimalPE
 cd $HOME/Durham/ddRAD/stacks.denovo
 mkdir $dataset
 cd $dataset
 ```
-##### Setting path variables
+### Setting path variables
 ```
 samples=$HOME/Durham/ddRAD/cleaned_sel/
 popmap=$HOME/Durham/ddRAD/info/popmap_woutgroups_tot.tsv
@@ -669,11 +669,11 @@ sstacks -P ./ -p 40 -M $popmap &> sstacks.oe #Using the complete popmap
 ```
 tsv2bam -P ./ -M $popmap -R ../../cleaned_sel_R2/ -t 40 &> tsv2bam.oe
 ```
-#gstacks: incorporating PE data, merging the R2 and using SNP calling method Maruki to refine the SNP calls
+### gstacks: incorporating PE data, merging the R2 and using SNP calling method Maruki to refine the SNP calls
 ```
 gstacks -P ./ -M $popmap -t 40 &> gstacks.oe
 ```
-#populations: selecting the samples and the loci we want to build the phylogenies and making the final alignments
+### populations: selecting the samples and the loci we want to build the phylogenies and making the final alignments
 ```
 popmap=$HOME/Durham/ddRAD/info/popmap_ingroup.tsv # We will work with no outgroups
 
@@ -749,7 +749,7 @@ bwa mem -M -L 7 -t 10 $bwa_db catalog.fa.gz | /users/DB_shared/samtools-1.3.1/sa
 stacks-integrate-alignments -P ./ -B catalog.bam -O ./integrate_alignments
 ```
 
-### Then, run populations as shown before for the optimal dataset ###
+#### Then, run populations as shown before for the optimal dataset ###
 
 ################################################################################
 ## 11) Calculate parsimony informative sites (PIS) per locus for each dataset ##
