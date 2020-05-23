@@ -9,7 +9,7 @@ python /users/jferrer/programari/AMAS/amas/AMAS.py summary -i out_fasta/*fa -f f
 cat summary_ddRAD_75.txt | cut -f1,3,11,12 | sed 's/Alignment_name/CHROM/' | sed -E 's/^locus_([0-9]+)\.fa/\1/g' > GC_content_locus.txt
 ```
 ###############################################################################                                                      
-## 2) Calculate reference and derived allele frequencies for biallelic sites ##
+## 2) Calculate putative reference and derived allele frequencies for biallelic sites ##
 ###############################################################################
 ```
 vcftools --vcf populations.snps.vcf --min-alleles 2 --max-alleles 2 --freq --out populations.snps
