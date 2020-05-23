@@ -519,18 +519,18 @@ axis(side=1, at=c(1:8), labels = c("m3","m4","m5","m6","m7","m8","m9","m10"))
 
 dev.off()
 ```
-#################################
+#################
 ## 7) Chosen Parameterizations ##
-#################################
+#####################
 
 ##################################################################################################################################
-### a) STACKS optimal:  m3 M5 n8: results of optimizing each of the parameters as in Paris et al. 2017 and Rochette & Catchen 2017 #
-### b) STACKS default:  m3 M2 n1: Stacks default parameterization optimized for population genomics analyses                       #
-### c) STACKS higher n: m3 M5 n15: parameterization to see the effects of adding extremely variable loci but also more paralogs    #
-### d) STACKS higher m: m7 M5 n8: parameterization to avoid including sequencing errors as real alleles                            #
-### e) PyRAD clust 89: similar to STACKS higher n                                                                                  #
-### f) PyRAD clust 94: similar to STACKS optimal                                                                                   #
-### g) STACKS refmap: integrate alignments with the higher m parameterization loci mapped to Calonectris borealis genome           #
+#### a) STACKS optimal:  m3 M5 n8: results of optimizing each of the parameters as in Paris et al. 2017 and Rochette & Catchen 2017 #
+#### b) STACKS default:  m3 M2 n1: Stacks default parameterization optimized for population genomics analyses                       #
+#### c) STACKS higher n: m3 M5 n15: parameterization to see the effects of adding extremely variable loci but also more paralogs    #
+#### d) STACKS higher m: m7 M5 n8: parameterization to avoid including sequencing errors as real alleles                            #
+#### e) PyRAD clust 89: similar to STACKS higher n                                                                                  #
+#### f) PyRAD clust 94: similar to STACKS optimal                                                                                   #
+#### g) STACKS refmap: integrate alignments with the higher m parameterization loci mapped to Calonectris borealis genome           #
 ##################################################################################################################################
 
 ###############################           
