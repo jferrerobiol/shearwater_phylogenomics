@@ -105,8 +105,8 @@ sed -n '/^Barcode\tFilename\t/,/^$/ p' ../cleaned/process_radtags.$pool.log \
                 >> n_reads_per_sample.tsv
 done
 ```
-##### Plot these numbers using 2.plot_n_reads_per_sample.R from Rochette & Catchen 2017
-##### Remove bad samples (if any) or samples we will not use for the analyses from the population map
+### Plot these numbers using 2.plot_n_reads_per_sample.R from Rochette & Catchen 2017
+#### Remove bad samples (if any) or samples we will not use for the analyses from the population map
 ```
 echo -n "\
 aPMyr
