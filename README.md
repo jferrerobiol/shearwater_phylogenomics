@@ -1,3 +1,3 @@
 # Shearwater phylogenomics
 ### Scripts for the manuscript:
-#### Phylogenomics of Shearwaters (Procellariiformes: Procellariidae): Resolving recent radiations in a highly mobile group of pelagic seabirds
+#### Integrating Sequence Capture and Restriction-Site Associated DNA Sequencing to resolve Recent Radiations of Pelagic Seabirds
